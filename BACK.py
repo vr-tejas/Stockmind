@@ -6,9 +6,16 @@ from google import genai
 from dotenv import load_dotenv 
 import os 
 
-# Load API keys 
-GEMINI_API_KEY="YOUR_GEMINI_API_KEY" 
-ALPHA_VANTAGE_API_KEY="YOUR_ALPHA_VANTAGE_API_KEY" 
+# Load environment variables from gemini.env
+load_dotenv('gemini.env')
+
+# Load API keys from environment variables
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+ALPHA_VANTAGE_API_KEY = os.getenv("ALPHA_VANTAGE_API_KEY")
+
+if not GEMINI_API_KEY or not ALPHA_VANTAGE_API_KEY:
+    raise ValueError("API keys not found. Please set them in gemini.env file")
+
 client = genai.Client(api_key=GEMINI_API_KEY) 
 app = Flask(__name__, static_folder="static", template_folder="templates") 
 
